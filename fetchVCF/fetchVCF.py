@@ -33,7 +33,7 @@ data = ''
 for sample in sample_list:
     data = data + '\n' + sample
 
-request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data)
+request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data, headers={'Content-type': 'text/plain'})
 try:
      print urllib2.urlopen(request).read()
 except urllib2.HTTPError, e:
