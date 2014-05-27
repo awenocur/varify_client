@@ -11,17 +11,19 @@ args = argParser.parse_args()
 port = 80
 host = '127.0.0.1'
 protocol = 'http'
+tokenQueryString = ''
 
 config = ConfigParser.ConfigParser()
 config.readfp(open('fetchVCF.cfg'))
 if config.has_section('Connection'):
-    if(config.has_option('host')):
+    if(config.has_option('Connection', 'host')):
         host = config.get('Connection', 'host')
-    if(config.has_option('port')):
+    if(config.has_option('Connection', 'port')):
         port = config.getint('Connection', 'port')
-    if(config.has_option('protocol')):
+    if(config.has_option('Connection', 'protocol')):
         protocol = config.get('Connection', 'protocol')
-
+    if(config.has_option('Connection', 'token')):
+        tokenQueryString = '?token=' + config.get('Connection', 'token')
 
 
 sample_list = args.sampleNames
@@ -31,7 +33,7 @@ data = ''
 for sample in sample_list:
     data = data + '\n' + sample
 
-request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/", data=data)
+request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/" + tokenQueryString, data=data)
 try:
      print urllib2.urlopen(request).read()
 except urllib2.HTTPError, e:
