@@ -6,7 +6,7 @@ import urllib2
 #The following is a Python 2.7+ implementation; use optparse for Python 2.6
 argParser = ArgumentParser("fetch VCF representation of variant data")
 argParser.add_argument('--sample', '-s', dest='sampleNames', nargs='+', type=str)
-argParser.parse_args()
+args = argParser.parse_args()
 
 port = 80
 host = '127.0.0.1'
@@ -24,14 +24,14 @@ if config.has_section('Connection'):
 
 
 
-sample_list = argParser.sampleNames
+sample_list = args.sampleNames
 
 data = ''
 
 for sample in sample_list:
     data = data + '\n' + sample
 
-request = urllib2.Request(protocol + "://" + host + ":" + port + "/", data=data)
+request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/", data=data)
 try:
      print urllib2.urlopen(request).read()
 except urllib2.HTTPError, e:
