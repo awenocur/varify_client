@@ -31,7 +31,7 @@ sample_list = args.sampleNames
 data = ''
 
 for sample in sample_list:
-    data = data + '\n' + sample
+    data = data + sample + '\n'
 
 request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data, headers={'Content-type': 'text/plain'})
 try:
