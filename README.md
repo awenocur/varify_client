@@ -8,4 +8,4 @@ command line to launch fetchVcf:
 
 ##Setup
 *   Go to `http://yourvarifyinstance.chop.edu/admin/serrano/apitoken/`
-*   Add API Token
+*   Add API Token and your varify instance to the configuration file and name it varify.cfg (see the sample config included)
