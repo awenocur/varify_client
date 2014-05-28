@@ -1,3 +1,4 @@
 [Connection]
 host = varify.domain.suffix
+port = 80
 token = 012345678901234567890123456abcde
