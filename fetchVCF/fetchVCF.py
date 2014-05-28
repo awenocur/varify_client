@@ -14,7 +14,7 @@ protocol = 'http'
 tokenQueryString = ''
 
 config = ConfigParser.ConfigParser()
-config.readfp(open('fetchVCF.cfg'))
+config.readfp(open('varify.cfg'))
 if config.has_section('Connection'):
     if(config.has_option('Connection', 'host')):
         host = config.get('Connection', 'host')
