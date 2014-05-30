@@ -35,15 +35,21 @@ class VariantVcfDownload:
         reader = vcf.Reader(fsock=pipe)
         return reader
 
-#The following is a Python 2.7+ implementation; use optparse for Python 2.6
-argParser = ArgumentParser("fetch VCF representation of variant data")
-argParser.add_argument('--sample', '-s', dest='sampleNames', nargs='+', type=str)
-args = argParser.parse_args()
+    @staticmethod
+    def runCommandLine():
+        #The following is a Python 2.7+ implementation; use optparse for Python 2.6
+        argParser = ArgumentParser("fetch VCF representation of variant data")
+        argParser.add_argument('--sample', '-s', dest='sampleNames', nargs='+', type=str)
+        args = argParser.parse_args()
 
-try:
-     vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames)
-     print vcfStream.read()
-except urllib2.HTTPError, e:
-     print "HTTP error: %d" % e.code
-except urllib2.URLError, e:
-     print "Network error: %s" % e.reason.args[1]
+        if args.sampleNames == None:
+            print "no sample labels provided!"
+            return
+
+        try:
+             vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames)
+             print vcfStream.read()
+        except urllib2.HTTPError, e:
+             print "HTTP error: %d" % e.code
+        except urllib2.URLError, e:
+             print "Network error: %s" % e.reason.args[1]
