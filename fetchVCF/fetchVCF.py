@@ -1,35 +1,25 @@
 #!/usr/bin/python
 from argparse import ArgumentParser
-import ConfigParser
 import urllib2
 import vcf
-import os
+from config import connectionConfig
 
 class VariantVcfDownload:
     @staticmethod
     def fetchVcfPipe(sample_list, host=None, port=None, protocol=None, token=None):
         tokenQueryString = ''
 
-        configPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../varify.cfg')
+        if host == None:
+           host = connectionConfig.host
+        if port == None:
+           port = connectionConfig.port
+        if protocol == None:
+           protocol = connectionConfig.protocol
+        if token == None:
+           token = connectionConfig.token
 
-        config = ConfigParser.ConfigParser()
-        config.readfp(open(configPath))
-        if config.has_section('Connection'):
-            if host == None and config.has_option('Connection', 'host'):
-               host = config.get('Connection', 'host')
-            if port == None and config.has_option('Connection', 'port'):
-               port = config.getint('Connection', 'port')
-            if protocol == None and config.has_option('Connection', 'protocol'):
-               protocol = config.get('Connection', 'protocol')
-            if token == None and config.has_option('Connection', 'token'):
-               token = config.get('Connection', 'token')
-
-            if token != None:
-               tokenQueryString = '?token=' + token
-
-        if (port == None): port = 80
-        if (host == None): host = '127.0.0.1'
-        if (protocol == None): protocol = 'http'
+        if token != None:
+           tokenQueryString = '?token=' + token
 
         data = ''
 
