@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 import urllib2
 import vcf
 from config import connectionConfig
+import json
 
 class VariantVcfDownload:
     @staticmethod
@@ -21,10 +22,11 @@ class VariantVcfDownload:
         if token != None:
            tokenQueryString = '?token=' + token
 
-        data = ''
+        for_export = {}
 
-        for sample in sample_list:
-            data = data + sample + '\n'
+        for_export['samples'] = sample_list
+
+        data = json.dumps(for_export)
 
         request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data, headers={'Content-type': 'text/plain'})
         return urllib2.urlopen(request)
