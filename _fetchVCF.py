@@ -4,6 +4,7 @@ import urllib2
 import vcf
 from config import connectionConfig
 import json
+from util import chromRange
 
 class VariantVcfDownload:
     @staticmethod
@@ -42,11 +43,14 @@ class VariantVcfDownload:
         #The following is a Python 2.7+ implementation; use optparse for Python 2.6
         argParser = ArgumentParser("fetch VCF representation of variant data")
         argParser.add_argument('--sample', '-s', dest='sampleNames', nargs='+', type=str)
+        argParser.add_argument('--range', '-r', dest='ranges', nargs='+', type=str)
         args = argParser.parse_args()
 
         if args.sampleNames == None:
             print "no sample labels provided!"
             return
+
+        #add code to parse ranges here
 
         try:
              vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames)
