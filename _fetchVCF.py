@@ -4,11 +4,12 @@ import urllib2
 import vcf
 from config import connectionConfig
 import json
+import re
 from util import chromRange
 
 class VariantVcfDownload:
     @staticmethod
-    def fetchVcfPipe(sample_list, host=None, port=None, protocol=None, token=None):
+    def fetchVcfPipe(sample_list, ranges=None, host=None, port=None, protocol=None, token=None):
         tokenQueryString = ''
 
         if host == None:
@@ -24,6 +25,12 @@ class VariantVcfDownload:
            tokenQueryString = '?token=' + token
 
         for_export = {}
+
+        if ranges != None:
+            rangesForExport = []
+            for range in ranges:
+                rangesForExport.append(range.dict())
+            for_export['ranges'] = rangesForExport
 
         for_export['samples'] = sample_list
 
@@ -50,10 +57,21 @@ class VariantVcfDownload:
             print "no sample labels provided!"
             return
 
-        #add code to parse ranges here
+        ranges = []
+        rangeStrings = args.ranges
+        rangePattern = re.compile(r"(?P<chr>.*?):(?P<begin>.*?)-(?P<end>.*?)$")
+        if rangeStrings != None:
+            for string in rangeStrings:
+                rangeProps = rangePattern.match(string)
+                newRange = chromRange(
+                    rangeProps.group("chr"),
+                    int(rangeProps.group("begin")),
+                    int(rangeProps.group("end"))
+                )
+                ranges.append(newRange)
 
         try:
-             vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames)
+             vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames, ranges = ranges)
              print vcfStream.read()
         except urllib2.HTTPError, e:
              print "HTTP error: %d" % e.code
