@@ -72,7 +72,7 @@ class VariantVcfDownload:
 
         try:
              vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames, ranges = ranges)
-             print vcfStream.read()
+             print vcfStream.read()[:-1]
         except urllib2.HTTPError, e:
              print "HTTP error: %d" % e.code
         except urllib2.URLError, e:
