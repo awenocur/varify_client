@@ -36,7 +36,7 @@ class VariantVcfDownload:
 
         data = json.dumps(for_export)
 
-        request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data, headers={'Content-type': 'text/plain'})
+        request = urllib2.Request(protocol + "://" + host + ":" + str(port) + "/api/data/export/vcf/" + tokenQueryString, data=data, headers={'Content-type': 'application/json'})
         return urllib2.urlopen(request)
 
     @staticmethod
