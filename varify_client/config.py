@@ -7,7 +7,12 @@ class ConnectionConfig:
     protocol = None
     token = None
 
-configPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'varify.cfg')
+configPath = None
+
+def updateConfigPath(newPath):
+    configPath = os.path.join(os.path.dirname(os.path.realpath(os.getcwd)), newPath)
+
+configPath = updateConfigPath('varify.cfg')
 
 connectionConfig = ConnectionConfig()
 

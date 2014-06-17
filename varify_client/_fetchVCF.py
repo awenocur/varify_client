@@ -2,7 +2,7 @@
 from argparse import ArgumentParser
 import urllib2
 import vcf
-from config import connectionConfig
+from config import connectionConfig, updateConfigPath
 import json
 import re
 from util import chromRange
@@ -38,7 +38,7 @@ def fetchVcfPipe(sample_list, ranges=None, host=None, port=None, protocol=None, 
     return urllib2.urlopen(request)
 
 def fetchVcf(*args, **kwargs):
-    pipe = VariantVcfDownload.fetchVcfPipe(*args, **kwargs)
+    pipe = fetchVcfPipe(*args, **kwargs)
     reader = vcf.Reader(fsock=pipe)
     return reader
 
@@ -47,6 +47,7 @@ def runCommandLine():
     argParser = ArgumentParser("fetch VCF representation of variant data")
     argParser.add_argument('--sample', '-s', dest='sampleNames', nargs='+', type=str)
     argParser.add_argument('--range', '-r', dest='ranges', nargs='+', type=str)
+    argParser.add_argument('--config', '-c', dest='configPath')
     args = argParser.parse_args()
 
     if args.sampleNames == None:
@@ -66,8 +67,11 @@ def runCommandLine():
             )
             ranges.append(newRange)
 
+    if args.configPath != None:
+        updateConfigPath(args.configPath)
+
     try:
-         vcfStream = VariantVcfDownload.fetchVcfPipe(args.sampleNames, ranges = ranges)
+         vcfStream = fetchVcfPipe(args.sampleNames, ranges = ranges)
          print vcfStream.read()[:-1]
     except urllib2.HTTPError, e:
          print "HTTP error: %d" % e.code
