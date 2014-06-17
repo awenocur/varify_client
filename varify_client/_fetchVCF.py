@@ -2,7 +2,7 @@
 from argparse import ArgumentParser
 import urllib2
 import vcf
-from config import connectionConfig, updateConfigPath
+from config import connectionConfig, updateConfigPath, readConfig
 import json
 import re
 from util import chromRange
@@ -69,6 +69,7 @@ def runCommandLine():
 
     if args.configPath != None:
         updateConfigPath(args.configPath)
+    readConfig()
 
     try:
          vcfStream = fetchVcfPipe(args.sampleNames, ranges = ranges)
