@@ -1,1 +1,0 @@
-varify-client.py
