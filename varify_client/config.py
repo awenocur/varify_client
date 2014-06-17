@@ -11,7 +11,7 @@ configPath = None
 
 def updateConfigPath(newPath):
     import config
-    config.configPath = os.path.join(os.path.dirname(os.path.realpath(os.getcwd)), newPath)
+    config.configPath = os.path.join(os.path.dirname(os.path.realpath(os.getcwd())), newPath)
 
 configPath = updateConfigPath('varify.cfg')
 
