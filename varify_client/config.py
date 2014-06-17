@@ -10,7 +10,8 @@ class ConnectionConfig:
 configPath = None
 
 def updateConfigPath(newPath):
-    configPath = os.path.join(os.path.dirname(os.path.realpath(os.getcwd)), newPath)
+    import config
+    config.configPath = os.path.join(os.path.dirname(os.path.realpath(os.getcwd)), newPath)
 
 configPath = updateConfigPath('varify.cfg')
 
