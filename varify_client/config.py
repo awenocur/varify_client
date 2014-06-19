@@ -1,5 +1,6 @@
 import ConfigParser
 import os
+from sys import stderr
 
 class ConnectionConfig:
     host = None
@@ -25,7 +26,10 @@ connectionConfig = ConnectionConfig()
 def readConfig():
     connectionConfig.reset()
     parser = ConfigParser.ConfigParser()
-    parser.readfp(open(configPath))
+    try:
+        parser.readfp(open(configPath))
+    except IOError, e:
+        print >> stderr, "Can't find config file \"" + configPath + "\"; using default settings"
     if parser.has_section('Connection'):
         if parser.has_option('Connection', 'host'):
            connectionConfig.host = parser.get('Connection', 'host')
