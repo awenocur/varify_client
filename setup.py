@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='varify-client',
-    version='0.0.2',
+    version='0.0.3',
     packages=['varify_client'],
     maintainer='Adam Wenocour',
     maintainer_email='wenocur@email.chop.edu',
