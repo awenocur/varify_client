@@ -1,0 +1,3 @@
+Here is some dummy data for the exporter to read in and spit out.
+It is not important that this contain a VCF file at this time, only that
+we verify the contents of this file be reproduced verbatim.

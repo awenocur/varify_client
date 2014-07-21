@@ -8,11 +8,10 @@ import re
 from util import chromRange
 from sys import stderr
 
-
-def fetchVcfPipe(sample_list, ranges=None, host=None, port=None, protocol=None,
-                 token=None):
+# The following function generates a request for fetching a VCF file.
+def vcfFetchRequest(data, host=None, port=None, protocol=None,
+                    token=None, custom_path=None):
     tokenQueryString = ''
-
     if host == None:
         host = connectionConfig.host
     if port == None:
@@ -22,12 +21,28 @@ def fetchVcfPipe(sample_list, ranges=None, host=None, port=None, protocol=None,
     if token == None:
         token = connectionConfig.token
 
-    if token != None:
+    if token:
         tokenQueryString = '?token=' + token
 
+    port_string = ""
+    if port:
+        portString = ":" + str(port)
+
+    path_string = "/api/data/export/vcf/"
+    if custom_path:
+        path_string = custom_path
+
+    request = urllib2.Request(protocol + "://" + host + port_string +
+        path_string + tokenQueryString, data=data,
+        headers={'Content-type': 'application/json'})
+    return request
+
+# The following function generates the JSON to send to Harvest to fetch a VCF
+# file.
+def vcfFetchData(sample_list, ranges=None):
     for_export = {}
 
-    if ranges != None:
+    if ranges:
         rangesForExport = []
         for range in ranges:
             rangesForExport.append(range.dict())
@@ -37,9 +52,14 @@ def fetchVcfPipe(sample_list, ranges=None, host=None, port=None, protocol=None,
 
     data = json.dumps(for_export)
 
-    request = urllib2.Request(protocol + "://" + host + ":" + str(
-        port) + "/api/data/export/vcf/" + tokenQueryString, data=data,
-                              headers={'Content-type': 'application/json'})
+    return data
+
+def fetchVcfPipe(sample_list, ranges=None, **vargs):
+
+    data = vcfFetchData(sample_list, ranges)
+
+    request = vcfFetchRequest(data, **vargs)
+
     return urllib2.urlopen(request)
 
 
