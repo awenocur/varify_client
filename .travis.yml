@@ -8,7 +8,7 @@ install:
     - python setup.py develop
 
 script:
-    - coverage python test_suite.py
+    - coverage run test_suite.py
 
 after_success:
     - coveralls
