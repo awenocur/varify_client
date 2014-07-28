@@ -26,7 +26,7 @@ def vcfFetchRequest(data, host=None, port=None, protocol=None,
 
     port_string = ""
     if port:
-        portString = ":" + str(port)
+        port_string = ":" + str(port)
 
     path_string = "/api/data/export/vcf/"
     if custom_path:
