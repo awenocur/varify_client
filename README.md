@@ -9,5 +9,11 @@ command line to launch fetchVcf:
 This can be used to combine multiple samples into a single VCF file, even if the source data are from different runs.
 
 ##Setup
+###Installation
+The easiest way to install varify-client is by using pip:
+`pip install varify-client`
+
+###Configuration
+*   After configuring an instance of Varify, 
 *   Go to `http://yourvarifyinstance.chop.edu/admin/serrano/apitoken/`
 *   Add API Token and your varify instance to the configuration file and name it varify.cfg (see the sample config included)
