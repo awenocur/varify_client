@@ -1,7 +1,7 @@
 from os.path import dirname, join
 from unittest import TestCase
 from hashlib import md5
-import varify_client._fetchVCF as fetchVCF
+import varify_client.fetchVCF as fetchVCF
 
 enclosing_dir = dirname(__file__)
 demo_vcf_response_path = join(enclosing_dir, "data/demoResponse")
